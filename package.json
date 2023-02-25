@@ -1,0 +1,54 @@
+{
+  "name": "hackernews",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "npx eslint --fix src"
+  },
+  "dependencies": {
+    "@lukemorales/query-key-factory": "^1.1.0",
+    "@tanstack/react-query": "^4.24.10",
+    "antd": "^5.2.2",
+    "classnames": "^2.3.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-error-boundary": "^3.1.4",
+    "react-router-dom": "^6.8.1",
+    "zod": "^3.20.6"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^4.24.11",
+    "@tanstack/react-query-devtools": "^4.24.10",
+    "@types/antd": "^1.0.0",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@types/react-router-dom": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "@vitejs/plugin-react": "^3.1.0",
+    "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.22.0",
+    "stylelint": "^15.2.0",
+    "stylelint-config-standard": "^30.0.1",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.0"
+  }
+}
