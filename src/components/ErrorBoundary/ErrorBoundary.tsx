@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Button, Result } from "antd";
 
 type ErrorBoundaryProps = {
   fallback?: React.ReactNode;
@@ -24,7 +25,14 @@ export default class ErrorBoundary extends React.Component<ErrorBoundaryProps, E
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback;
+      return (
+        <Result
+          status="500"
+          title="500"
+          subTitle="Sorry, something went wrong."
+          extra={<Button type="primary">Back Home</Button>}
+        />
+      );
     }
 
     return this.props.children;
