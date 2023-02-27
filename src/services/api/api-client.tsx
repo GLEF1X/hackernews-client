@@ -4,6 +4,8 @@ import {
   ArticleCommentModel,
   ArticleModel,
   type CleanData,
+  User,
+  UserModel,
 } from "./types";
 import { createContext, type ReactNode, useContext } from "react";
 
@@ -46,8 +48,15 @@ export class ApiClient {
         if (jsonResponse.deleted) {
           return null;
         }
+
         return ArticleCommentModel.parse(jsonResponse);
       });
+  }
+
+  async getUser(nickname: string): Promise<User> {
+    return await fetch(this.apiUrl + `/user/${nickname}.json`)
+      .then(async (response) => await response.json())
+      .then((jsonResponse) => UserModel.parse(jsonResponse));
   }
 }
 

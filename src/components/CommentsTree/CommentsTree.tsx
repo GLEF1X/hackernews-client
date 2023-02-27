@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useGetComments } from "../../hooks/api/useGetComments";
 import {
+  CommentNode,
   convertCommentsToCommentNodes,
   findNodeInTree,
   updateChildrenOfCommentNode,
@@ -9,6 +10,8 @@ import { Tree } from "antd";
 import { useQueryClient } from "@tanstack/react-query";
 import { newsQueryKeys } from "../../hooks/api/query-keys";
 import { useApiClient } from "../../services/api/api-client";
+import { EventDataNode } from "antd/es/tree";
+import { Parser as HtmlToReactParser } from "html-to-react";
 
 export default React.memo(function CommentsTree({
   commentIds,
@@ -25,28 +28,46 @@ export default React.memo(function CommentsTree({
   const apiClient = useApiClient();
   const comments = data ?? [];
 
-  const onExpandNode = ({ key }: { key: string }) =>
+  const onExpandNode = ({ key }: EventDataNode<CommentNode>) =>
     queryClient.prefetchQuery(
       newsQueryKeys.getComments(articleId),
       async () => {
-        const node = findNodeInTree(comments, parseInt(key));
+        const parentCommentId = parseInt(key);
+        const node = findNodeInTree(comments, parentCommentId);
 
         if (!node || node.isLeaf || node.isChildrenLoaded) {
-          console.log(`Node ${key} was not found or it's a leaf or children already loaded.`);
           return comments;
         }
 
         const childrenIds = node.children as number[];
-        const childrenComments = await apiClient.getComments(childrenIds);
+        const commentChildren = await apiClient.getComments(childrenIds);
 
         return updateChildrenOfCommentNode(
           comments,
-          parseInt(key),
-          convertCommentsToCommentNodes(childrenComments)
+          parentCommentId,
+          convertCommentsToCommentNodes(commentChildren)
         );
       },
       { staleTime: 0, cacheTime: 0 }
     );
 
-  return <Tree loadData={onExpandNode} treeData={comments} />;
+  const titleRender = (nodeData: CommentNode): React.ReactNode => {
+    const htmlToReactParser = new HtmlToReactParser();
+    const nodeText = nodeData.title as string;
+
+    const x = htmlToReactParser.parse(nodeText);
+
+    console.log(x);
+    return x;
+  };
+
+  return (
+    <Tree
+      loadData={onExpandNode}
+      treeData={comments}
+      showIcon={false}
+      //@ts-expect-error
+      titleRender={titleRender}
+    />
+  );
 });

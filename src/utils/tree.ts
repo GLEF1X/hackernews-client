@@ -1,4 +1,5 @@
 import { type ArticleComment } from "../services/api/types";
+import type { DataNode } from "antd/es/tree";
 
 type Id = number;
 
@@ -6,18 +7,22 @@ type CommentType = Omit<ArticleComment, "kids"> & {
   kids?: Array<CommentType | number>;
 };
 
-export class CommentNode {
-  public isLeaf: boolean;
-  public id: number;
+export class CommentNode implements DataNode {
+  public readonly id: number;
+  public readonly title: string;
+  public readonly key: string;
+  public readonly parentId?: number;
+  public readonly isLeaf: boolean;
+  public readonly authorNickname: string;
+
+  // @ts-ignore
   public children: CommentNode[] | Id[];
-  public title: string;
-  public key: string;
-  public parentId?: number;
 
   public constructor(
     id: number,
     title: string,
     key: string,
+    authorNickname: string,
     children?: CommentNode[] | Id[],
     parentId?: number
   ) {
@@ -25,6 +30,7 @@ export class CommentNode {
     this.children = children ?? [];
     this.title = title;
     this.key = key;
+    this.authorNickname = authorNickname;
     this.parentId = parentId;
     this.isLeaf = !this.children.length;
   }
@@ -32,19 +38,20 @@ export class CommentNode {
   public static fromComment(comment: CommentType) {
     return new CommentNode(
       comment.id,
+      comment.text,
       comment.id.toString(),
-      comment.id.toString(),
+      comment.by,
       // @ts-ignore
       comment.kids,
       comment.parent
     );
   }
 
-  get isChildrenLoaded(): boolean {
+  public get isChildrenLoaded(): boolean {
     return !(this.children as any[]).every((v) => typeof v === "number" && isFinite(v));
   }
 
-  get isRootNode(): boolean {
+  public get isRootNode(): boolean {
     return !!this.parentId;
   }
 }
@@ -56,7 +63,14 @@ export const updateChildrenOfCommentNode = (
 ): CommentNode[] =>
   treeNodes.map((node) => {
     if (node.id === id) {
-      return new CommentNode(node.id, node.title, node.key, childrenNodesToInsert, node.parentId);
+      return new CommentNode(
+        node.id,
+        node.title,
+        node.key,
+        node.authorNickname,
+        childrenNodesToInsert,
+        node.parentId
+      );
     }
 
     // Comments are loaded, so they are not just ids(numbers)
@@ -67,6 +81,7 @@ export const updateChildrenOfCommentNode = (
         node.id,
         node.title,
         node.key,
+        node.authorNickname,
         updateChildrenOfCommentNode(subNodes, id, childrenNodesToInsert),
         node.parentId
       );
@@ -78,9 +93,7 @@ export const convertCommentsToCommentNodes = (comments: CommentType[]): CommentN
   comments.map((comment) => {
     const treeNode = CommentNode.fromComment(comment);
 
-    // In some cases comment.kids might be fulfilled with both
-    // TreeNode and id's since there is no guarantee
-    if (!comment.kids || !comment.kids.length || comment.kids.some(isFinite)) {
+    if (!treeNode.isChildrenLoaded) {
       return treeNode;
     }
 
@@ -90,20 +103,27 @@ export const convertCommentsToCommentNodes = (comments: CommentType[]): CommentN
       treeNode.id,
       treeNode.title,
       treeNode.key,
+      treeNode.authorNickname,
       convertCommentsToCommentNodes(commentChildren),
       treeNode.parentId
     );
   });
 
-export function findNodeInTree(treeNodes: CommentNode[], id: number): CommentNode | undefined {
-  for (const node of treeNodes) {
+export function findNodeInTree(treeNodes: CommentNode[], id: number): CommentNode | null {
+  const stack = Array.from(treeNodes);
+
+  while (stack.length) {
+    const node = stack.shift() as CommentNode;
+
     if (node.id === id) {
       return node;
     }
     if (node.children && node.children.length > 0 && node.isChildrenLoaded) {
       const nodeChildren = node.children as CommentNode[];
 
-      return findNodeInTree(nodeChildren, id);
+      stack.push(...nodeChildren);
     }
   }
+
+  return null;
 }

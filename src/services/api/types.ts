@@ -45,26 +45,31 @@ const ArticleModel = BaseItem.pick({
       .partial()
   );
 
+const UserModel = z.object({
+  id: z.string(),
+  created: z.number().transform((value) => dayjs.unix(value)),
+  karma: z.number().gte(0),
+  about: z.string().optional(),
+  submitted: z.array(z.number()),
+});
+
 const ArticleCommentModel = BaseItem.pick({
-  by: true,
   id: true,
-  kids: true,
-  parent: true,
   text: true,
   time: true,
   type: true,
+  by: true,
 })
   .required()
   .merge(
-    z
-      .object({
-        kids: z.array(z.number()),
-        parent: z.number(),
-      })
-      .partial()
+    z.object({
+      kids: z.array(z.number()).optional(),
+      parent: z.number().optional(),
+    })
   );
 
 export type Article = CleanData<typeof ArticleModel>;
 export type ArticleComment = CleanData<typeof ArticleCommentModel>;
+export type User = CleanData<typeof UserModel>;
 
-export { ArticleModel, ArticleCommentModel };
+export { ArticleModel, ArticleCommentModel, UserModel };
