@@ -3,7 +3,7 @@ import React, { lazy } from "react";
 import NotFoundResult from "./components/404";
 import { articleLoader } from "./services/loaders/article-loader";
 import queryClient from "./services/query-client";
-import Layout from "./components/Layout/Layout";
+import Layout from "./components/Layout";
 
 const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage/ArticlePage"));
