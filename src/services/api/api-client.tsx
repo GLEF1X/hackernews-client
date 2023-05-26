@@ -45,7 +45,7 @@ export class ApiClient {
     return await fetch(this.apiUrl + `/item/${id}.json`)
       .then(async (response) => await response.json())
       .then((jsonResponse) => {
-        if (jsonResponse.deleted) {
+        if (jsonResponse.deleted || jsonResponse.dead) {
           return null;
         }
 

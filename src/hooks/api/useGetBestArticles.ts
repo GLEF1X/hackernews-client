@@ -4,7 +4,7 @@ import { Article } from "../../services/api/types";
 import { newsQueryKeys } from "./query-keys";
 
 export function useGetBestArticles<Result = Array<Article>>(
-  options?: Partial<UseQueryOptions<Array<Article>, Error, Result>>
+  options?: UseQueryOptions<Array<Article>, Error, Result>
 ) {
   const apiClient = useApiClient();
 

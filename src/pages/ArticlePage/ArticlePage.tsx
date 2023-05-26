@@ -3,7 +3,7 @@ import { articleLoader, getArticleQuery } from "../../services/loaders/article-l
 import { useQuery } from "@tanstack/react-query";
 import { getParameterIfPresentedOrThrow } from "../../utils/router-utils";
 import React from "react";
-import { Descriptions } from "antd";
+import { Descriptions, Skeleton } from "antd";
 import CommentsTree from "../../components/CommentsTree/CommentsTree";
 
 export default function ArticlePage() {
@@ -31,7 +31,9 @@ export default function ArticlePage() {
           {article?.descendants ?? 0}
         </Descriptions.Item>
       </Descriptions>
-      <CommentsTree commentIds={article?.kids ?? []} articleId={article.id} />
+      <React.Suspense fallback={<Skeleton active />}>
+        <CommentsTree commentIds={article?.kids ?? []} articleId={article.id} />
+      </React.Suspense>
     </>
   );
 }

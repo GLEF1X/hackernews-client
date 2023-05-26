@@ -55,19 +55,10 @@ export default React.memo(function CommentsTree({
     const htmlToReactParser = new HtmlToReactParser();
     const nodeText = nodeData.title as string;
 
-    const x = htmlToReactParser.parse(nodeText);
-
-    console.log(x);
-    return x;
+    return htmlToReactParser.parse(nodeText);
   };
 
   return (
-    <Tree
-      loadData={onExpandNode}
-      treeData={comments}
-      showIcon={false}
-      //@ts-expect-error
-      titleRender={titleRender}
-    />
+    <Tree loadData={onExpandNode} treeData={comments} showIcon={false} titleRender={titleRender} />
   );
 });
