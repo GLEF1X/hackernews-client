@@ -20,11 +20,11 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "typeRoots": [
-      "src/local-types"
+      "src/@types"
     ],
     "paths": {
       "html-to-react": [
-        "./src/local-types/html-to-react"
+        "src/@types/html-to-react"
       ]
     }
   },
@@ -32,7 +32,7 @@
     "src"
   ],
   "exclude": [
-    "src/local-types/**",
+    "src/@types/**",
   ],
   "references": [
     {
