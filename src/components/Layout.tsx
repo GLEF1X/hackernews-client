@@ -4,8 +4,8 @@ import { Outlet } from "react-router-dom";
 
 export default function RootLayout() {
   return (
-    <Layout style={{background: "white"}}>
-      <Content style={{ margin: '0 250px' }}>
+    <Layout style={{ padding: "10px", backgroundColor: "white" }}>
+      <Content style={{ margin: "0 250px" }}>
         <Outlet />
       </Content>
     </Layout>
