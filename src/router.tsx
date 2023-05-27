@@ -4,9 +4,10 @@ import NotFoundResult from "./components/404";
 import { articleLoader } from "./services/loaders/article-loader";
 import queryClient from "./services/query-client";
 import Layout from "./components/Layout";
+import { withSuspense } from "./HOCs/withSuspense";
 
-const HomePage = lazy(() => import("./pages/HomePage/HomePage"));
-const ArticlePage = lazy(() => import("./pages/ArticlePage/ArticlePage"));
+const HomePage = withSuspense(lazy(() => import("./pages/HomePage/HomePage")));
+const ArticlePage = withSuspense(lazy(() => import("./pages/ArticlePage/ArticlePage")));
 
 export const router = createBrowserRouter([
   {
