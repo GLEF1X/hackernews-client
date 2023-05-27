@@ -8,9 +8,7 @@ import { Link } from "react-router-dom";
 import { RefetchButton } from "./RefetchButton";
 
 export default React.memo(function NewsList() {
-  const { data: bestNews, refetch } = useGetBestArticles({
-    refetchInterval: 1000 * 60, // refresh data every minute
-  });
+  const { data: bestNews, refetch } = useGetBestArticles();
 
   const articleDescription = (article: CleanData<typeof ArticleModel>) =>
     `${article.score} points by ${article.by} ${formatDateFromNow(article.time)}`;
