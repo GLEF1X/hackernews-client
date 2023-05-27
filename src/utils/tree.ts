@@ -14,6 +14,7 @@ export class CommentNode implements DataNode {
   public readonly parentId?: number;
   public readonly isLeaf: boolean;
   public readonly authorNickname: string;
+  public readonly createdAt: Date;
 
   // @ts-ignore
   public children: CommentNode[] | Id[];
@@ -23,12 +24,14 @@ export class CommentNode implements DataNode {
     title: string,
     key: string,
     authorNickname: string,
+    createdAt: Date,
     children?: CommentNode[] | Id[],
     parentId?: number
   ) {
     this.id = id;
     this.children = children ?? [];
     this.title = title;
+    this.createdAt = createdAt;
     this.key = key;
     this.authorNickname = authorNickname;
     this.parentId = parentId;
@@ -41,6 +44,7 @@ export class CommentNode implements DataNode {
       comment.text,
       comment.id.toString(),
       comment.by,
+      comment.time,
       // @ts-ignore
       comment.kids,
       comment.parent
@@ -68,6 +72,7 @@ export const updateChildrenOfCommentNode = (
         node.title,
         node.key,
         node.authorNickname,
+        node.createdAt,
         childrenNodesToInsert,
         node.parentId
       );
@@ -82,6 +87,7 @@ export const updateChildrenOfCommentNode = (
         node.title,
         node.key,
         node.authorNickname,
+        node.createdAt,
         updateChildrenOfCommentNode(subNodes, id, childrenNodesToInsert),
         node.parentId
       );
@@ -104,6 +110,7 @@ export const convertCommentsToCommentNodes = (comments: CommentType[]): CommentN
       treeNode.title,
       treeNode.key,
       treeNode.authorNickname,
+      treeNode.createdAt,
       convertCommentsToCommentNodes(commentChildren),
       treeNode.parentId
     );

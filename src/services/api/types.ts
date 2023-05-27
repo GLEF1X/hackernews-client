@@ -1,7 +1,10 @@
 import { z } from "zod";
-import dayjs from "dayjs";
 
 export declare type CleanData<T extends z.ZodType> = z.infer<T>;
+
+function isValidUnixTimestamp(timestamp: number): boolean {
+  return new Date(timestamp).getTime() > 0;
+}
 
 const BaseItem = z
   .object({
@@ -9,7 +12,10 @@ const BaseItem = z
     deleted: z.boolean(),
     type: z.enum(["job", "story", "comment", "poll", "pollopt"]),
     by: z.string(),
-    time: z.number().transform((value) => dayjs.unix(value)),
+    time: z
+      .number()
+      .refine(isValidUnixTimestamp)
+      .transform((value) => new Date(value * 1000)),
     text: z.string(),
     dead: z.boolean(),
     parent: z.number(),
@@ -47,7 +53,10 @@ const ArticleModel = BaseItem.pick({
 
 const UserModel = z.object({
   id: z.string(),
-  created: z.number().transform((value) => dayjs.unix(value)),
+  created: z
+    .number()
+    .refine(isValidUnixTimestamp)
+    .transform((value) => new Date(value * 1000)),
   karma: z.number().gte(0),
   about: z.string().optional(),
   submitted: z.array(z.number()),

@@ -4,7 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getParameterIfPresentedOrThrow } from "../../utils/router-utils";
 import React from "react";
 import { Descriptions, Skeleton } from "antd";
-import CommentsTree from "../../components/CommentsTree/CommentsTree";
+import CommentsTree from "../../components/Comments/CommentsTree";
+import { formatDate } from "../../utils/format-date";
 
 export default function ArticlePage() {
   const initialData = useLoaderData() as Awaited<ReturnType<ReturnType<typeof articleLoader>>>;
@@ -25,7 +26,7 @@ export default function ArticlePage() {
           }
         </Descriptions.Item>
         <Descriptions.Item label="title">{article.title}</Descriptions.Item>
-        <Descriptions.Item label="date">{article.time.format()}</Descriptions.Item>
+        <Descriptions.Item label="date">{formatDate(article.time)}</Descriptions.Item>
         <Descriptions.Item label="author">{article.by}</Descriptions.Item>
         <Descriptions.Item label="number of comments">
           {article?.descendants ?? 0}

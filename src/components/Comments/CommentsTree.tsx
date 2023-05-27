@@ -11,7 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { newsQueryKeys } from "../../hooks/api/query-keys";
 import { useApiClient } from "../../services/api/api-client";
 import { EventDataNode } from "antd/es/tree";
-import { Parser as HtmlToReactParser } from "html-to-react";
+import { Comment } from "./Comment/Comment";
 
 export default React.memo(function CommentsTree({
   commentIds,
@@ -51,12 +51,13 @@ export default React.memo(function CommentsTree({
       { staleTime: 0, cacheTime: 0 }
     );
 
-  const titleRender = (nodeData: CommentNode): React.ReactNode => {
-    const htmlToReactParser = new HtmlToReactParser();
-    const nodeText = nodeData.title as string;
-
-    return htmlToReactParser.parse(nodeText);
-  };
+  const titleRender = (nodeData: CommentNode): React.ReactNode => (
+    <Comment
+      author={nodeData.authorNickname}
+      content={nodeData.title}
+      createdAt={nodeData.createdAt}
+    />
+  );
 
   return (
     <Tree loadData={onExpandNode} treeData={comments} showIcon={false} titleRender={titleRender} />

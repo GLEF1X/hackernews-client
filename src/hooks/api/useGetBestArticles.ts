@@ -2,6 +2,7 @@ import { useApiClient } from "../../services/api/api-client";
 import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
 import { Article } from "../../services/api/types";
 import { newsQueryKeys } from "./query-keys";
+import dayjs from "dayjs";
 
 export function useGetBestArticles<Result = Array<Article>>(
   options?: UseQueryOptions<Array<Article>, Error, Result>
@@ -13,7 +14,7 @@ export function useGetBestArticles<Result = Array<Article>>(
     async () => {
       const news = await apiClient.getBestArticles();
 
-      return news.sort((a, b) => (a.time.isBefore(b.time) ? 1 : -1));
+      return news.sort((a, b) => (dayjs(a.time).isBefore(b.time) ? 1 : -1));
     },
     options
   );
