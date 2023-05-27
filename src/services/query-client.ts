@@ -1,5 +1,4 @@
 import { QueryClient } from "@tanstack/react-query";
-import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 
 export const CACHE_TIME_IN_MILLISECONDS = 1000 * 60; // 1 minute
 
@@ -15,10 +14,6 @@ const queryClient = new QueryClient({
       suspense: true,
     },
   },
-});
-
-export const persister = createSyncStoragePersister({
-  storage: window.localStorage,
 });
 
 export default queryClient;

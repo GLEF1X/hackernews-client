@@ -19,13 +19,21 @@ export class ApiClient {
     this.apiUrl = "https://hacker-news.firebaseio.com/v0";
   }
 
-  async getBestArticles(): Promise<Array<CleanData<typeof ArticleModel>>> {
+  async getBestArticles(
+    lastFetchedId = 0,
+    numberOfItemsToFetch = 50
+  ): Promise<Array<CleanData<typeof ArticleModel>>> {
     const getBestNewsIds: Promise<number[]> = fetch(this.apiUrl + "/topstories.json").then(
       async (response) => await response.json()
     );
 
     return await getBestNewsIds.then(
-      async (newsIds) => await Promise.all(newsIds.slice(0, 100).map(this.getArticleById, this))
+      async (newsIds) =>
+        await Promise.all(
+          newsIds
+            .slice(lastFetchedId, lastFetchedId + numberOfItemsToFetch)
+            .map(this.getArticleById, this)
+        )
     );
   }
 
