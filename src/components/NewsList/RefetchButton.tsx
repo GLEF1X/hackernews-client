@@ -2,10 +2,10 @@ import * as React from "react";
 import { useState } from "react";
 import { Button } from "antd";
 import { ReloadOutlined } from "@ant-design/icons";
-import { QueryObserverResult } from "@tanstack/query-core/src/types";
+import { UseQueryResult } from "@tanstack/react-query";
 
 type RefetchButtonProps = {
-  refetch: QueryObserverResult<any, any>["refetch"];
+  refetch: UseQueryResult["refetch"];
 };
 
 export const RefetchButton = React.memo(function RefetchButton({ refetch }: RefetchButtonProps) {
