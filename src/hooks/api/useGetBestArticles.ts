@@ -1,6 +1,6 @@
-import { useApiClient } from "../../services/api/api-client";
+import { useApiClient } from "@/services/api/api-client";
 import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
-import { Article } from "../../services/api/types";
+import { Article } from "@/services/api/types";
 import { newsQueryKeys } from "./query-keys";
 import dayjs from "dayjs";
 

@@ -1,7 +1,7 @@
 import { QueryClient } from "@tanstack/react-query";
 import { apiClient } from "../api/api-client";
 import { LoaderFunctionArgs } from "@remix-run/router/utils";
-import { getParameterIfPresentedOrThrow } from "../../utils/router-utils";
+import { getParameterIfPresentedOrThrow } from "@/utils/router-utils";
 import { Article } from "../api/types";
 
 export const getArticleQuery = (id: number) => {

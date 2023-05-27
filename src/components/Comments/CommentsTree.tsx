@@ -1,15 +1,15 @@
 import * as React from "react";
-import { useGetComments } from "../../hooks/api/useGetComments";
+import { useGetComments } from "@/hooks/api/useGetComments";
 import {
   CommentNode,
   convertCommentsToCommentNodes,
   findNodeInTree,
   updateChildrenOfCommentNode,
-} from "../../utils/tree";
+} from "@/utils/tree";
 import { Tree } from "antd";
 import { useQueryClient } from "@tanstack/react-query";
-import { newsQueryKeys } from "../../hooks/api/query-keys";
-import { useApiClient } from "../../services/api/api-client";
+import { newsQueryKeys } from "@/hooks/api/query-keys";
+import { useApiClient } from "@/services/api/api-client";
 import { EventDataNode } from "antd/es/tree";
 import { Comment } from "./Comment/Comment";
 

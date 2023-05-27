@@ -1,8 +1,8 @@
 import { List } from "antd";
-import { useGetBestArticles } from "../../hooks/api/useGetBestArticles";
+import { useGetBestArticles } from "@/hooks/api/useGetBestArticles";
 import * as React from "react";
-import { ArticleModel, CleanData } from "../../services/api/types";
-import { formatDateFromNow } from "../../utils/format-date";
+import { ArticleModel, CleanData } from "@/services/api/types";
+import { formatDateFromNow } from "@/utils/format-date";
 import classes from "./NewsList.module.sass";
 import { Link } from "react-router-dom";
 import { RefetchButton } from "./RefetchButton";

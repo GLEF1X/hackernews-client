@@ -25,14 +25,18 @@
     "paths": {
       "html-to-react": [
         "src/@types/html-to-react"
+      ],
+      "@/*": [
+        "./src/*"
       ]
-    }
+    },
+    "baseUrl": "."
   },
   "include": [
     "src"
   ],
   "exclude": [
-    "src/@types/**",
+    "src/@types/**"
   ],
   "references": [
     {

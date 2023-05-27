@@ -1,7 +1,7 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { useApiClient } from "../../services/api/api-client";
+import { useApiClient } from "@/services/api/api-client";
 import { newsQueryKeys } from "./query-keys";
-import { convertCommentsToCommentNodes, CommentNode } from "../../utils/tree";
+import { convertCommentsToCommentNodes, CommentNode } from "@/utils/tree";
 
 export function useGetComments<Result = CommentNode[]>(
   ids: number[],

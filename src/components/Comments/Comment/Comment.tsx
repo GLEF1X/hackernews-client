@@ -1,6 +1,6 @@
 import styles from "./Comment.module.css";
 import { Parser as HtmlToReactParser } from "html-to-react";
-import { formatDateFromNow } from "../../../utils/format-date";
+import { formatDateFromNow } from "@/utils/format-date";
 import { memo } from "react";
 
 type CommentProps = {

@@ -1,11 +1,11 @@
 import { ConfigProvider } from "antd";
 import ukUA from "antd/locale/uk_UA";
 import { RouterProvider } from "react-router-dom";
-import { router } from "./router";
-import { ApiClientProvider } from "./services/api/api-client";
+import { router } from "@/router";
+import { ApiClientProvider } from "@/services/api/api-client";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import queryClient, { CACHE_TIME_IN_MILLISECONDS, persister } from "./services/query-client";
-import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
+import queryClient, { CACHE_TIME_IN_MILLISECONDS, persister } from "@/services/query-client";
+import ErrorBoundary from "@/components/ErrorBoundary/ErrorBoundary";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import "./App.css";
 

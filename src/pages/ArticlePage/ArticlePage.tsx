@@ -1,11 +1,12 @@
 import { useLoaderData, useParams } from "react-router-dom";
-import { articleLoader, getArticleQuery } from "../../services/loaders/article-loader";
+import { articleLoader, getArticleQuery } from "@/services/loaders/article-loader";
 import { useQuery } from "@tanstack/react-query";
-import { getParameterIfPresentedOrThrow } from "../../utils/router-utils";
+import { getParameterIfPresentedOrThrow } from "@/utils/router-utils";
 import React from "react";
-import { Descriptions, Skeleton } from "antd";
-import CommentsTree from "../../components/Comments/CommentsTree";
-import { formatDate } from "../../utils/format-date";
+import { Descriptions } from "antd";
+import CommentsTree from "@/components/Comments/CommentsTree";
+import { formatDate } from "@/utils/format-date";
+import { CommentsTreeSkeleton } from "@/components/Comments/CommentsTreeSkeleton";
 
 export default function ArticlePage() {
   const initialData = useLoaderData() as Awaited<ReturnType<ReturnType<typeof articleLoader>>>;
@@ -32,7 +33,7 @@ export default function ArticlePage() {
           {article?.descendants ?? 0}
         </Descriptions.Item>
       </Descriptions>
-      <React.Suspense fallback={<Skeleton active />}>
+      <React.Suspense fallback={<CommentsTreeSkeleton />}>
         <CommentsTree commentIds={article?.kids ?? []} articleId={article.id} />
       </React.Suspense>
     </>

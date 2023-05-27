@@ -1,4 +1,4 @@
-import { type ArticleComment } from "../services/api/types";
+import { type ArticleComment } from "@/services/api/types";
 import type { DataNode } from "antd/es/tree";
 
 type Id = number;
