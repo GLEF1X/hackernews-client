@@ -9,7 +9,7 @@ import { RefetchButton } from "./RefetchButton";
 import InfiniteScroll from "react-infinite-scroll-component";
 import dayjs from "dayjs";
 
-export default React.memo(function NewsList() {
+export function NewsList() {
   const [orderBy, setOrderBy] = React.useState<"score" | "time" | "no-ordering">("no-ordering");
   const { data, fetchNextPage, hasNextPage, refetch } = useGetBestArticles();
 
@@ -19,6 +19,8 @@ export default React.memo(function NewsList() {
 
     if (!data) {
       return [];
+    } else if (orderBy === "no-ordering") {
+      return data.pages.flat();
     }
 
     return data.pages.flat().sort(orderBy === "score" ? sortByScore : sortByTime);
@@ -69,4 +71,4 @@ export default React.memo(function NewsList() {
       </InfiniteScroll>
     </Space>
   );
-});
+}
