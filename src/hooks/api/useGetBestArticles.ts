@@ -2,6 +2,7 @@ import { useApiClient } from "@/services/api/api-client";
 import { useInfiniteQuery, type UseInfiniteQueryOptions } from "@tanstack/react-query";
 import { Article } from "@/services/api/types";
 import { newsQueryKeys } from "./query-keys";
+import { calculateTotalNestedArrayLength } from "@/utils/arrays";
 
 export function useGetBestArticles<Result = Array<Article>>(
   options?: UseInfiniteQueryOptions<Array<Article>, Error, Result>
@@ -16,7 +17,8 @@ export function useGetBestArticles<Result = Array<Article>>(
         if (!lastPage.length) {
           return null;
         }
-        return allPages.reduce((total, current) => total + current.length, 0) + 1;
+
+        return calculateTotalNestedArrayLength(allPages);
       },
       staleTime: 10 * 1000, // ten seconds
       cacheTime: 10 * 1000, // ten seconds
